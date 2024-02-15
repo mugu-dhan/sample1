@@ -1,0 +1,23 @@
+.flex-container{
+    background-color: black;
+    display: flex;
+    padding-left: 50%;
+    color: azure;
+}
+.flex-box{
+    background-color:rgb(15, 188, 211);
+    padding: 10px;
+}
+.grid-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #000000;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color:white;
+    border: 1px double rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    font-size: large;
+    text-align: center;
+  }

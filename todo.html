@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: rgb(179, 204, 250);
+        }
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(193, 236, 241);
+        }
+        .question {
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        #feedback {
+            margin-top: 20px;
+            color: rgb(29, 2, 9);
+        }
+        
+        .submit-button,.quiz{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .quiz{
+            margin-bottom: 20px;
+            font: 5rem bold;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="quiz">
+            QUIZ
+        </div>
+    <div class="quiz-container">
+        <div id="quiz"></div>
+        <form id="quiz-form">
+            <fieldset id="question" class="hide"></fieldset>
+            <fieldset id="options" class="hide"></fieldset>
+           <div class="submit-button"><input  type="submit" value="Submit"></div> 
+        </form>
+        <div id="feedback"></div>
+    </div>
+</div>
+    <script>
+        const quiz = [
+            {
+                question: 'Who is the godfather of cricket in India?',
+                options: ['MS Dhoni', 'Sachin Tendulkar', 'Virat Kohli', 'Ganguly'],
+                answer: 1
+            },
+            {
+                question: 'When was the last year did India lift the world cup?',
+                options: ['2011', '2015', '2023', '1983'],
+                answer: 0
+            },
+            {
+                question: 'Who is the Goat?',
+                options: ['191', '179', '204', '183'],
+                answer: 3
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const quizContainer = document.getElementById('quiz');
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const feedbackEl = document.getElementById('feedback');
+
+        function displayQuestion() {
+            const q = quiz[currentQuestion];
+            questionEl.innerText = q.question;
+            optionsEl.innerHTML = '';
+
+            q.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<input type="radio" name="option" value="${index}" id="option${index}"><label for="option${index}">${option}</label>`;
+                optionsEl.appendChild(li);
+            });
+
+            questionEl.classList.remove('hide');
+            optionsEl.classList.remove('hide');
+        }
+
+        function checkAnswer() {
+            const selectedOption = Number(document.querySelector('input[name="option"]:checked').value);
+            if (selectedOption === quiz[currentQuestion].answer) {
+                score++;
+                feedbackEl.innerText = 'Correct!';
+            } else {
+                feedbackEl.innerText = `Wrong! The correct answer is: ${quiz[currentQuestion].options[quiz[currentQuestion].answer]}`;
+            }
+            feedbackEl.classList.add('show');
+            setTimeout(() => {
+                feedbackEl.classList.remove('show');
+                currentQuestion++;
+                if (currentQuestion < quiz.length) {
+                    displayQuestion();
+                } else {
+                    quizContainer.innerHTML = `<h2>You got ${score} out of ${quiz.length} questions correct!</h2>`;
+                }
+            }, 2000);
+        }
+
+        displayQuestion();
+
+        document.getElementById('quiz-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            checkAnswer();
+        });
+    </script>
+</body>
+</html>
